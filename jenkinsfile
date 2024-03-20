@@ -16,6 +16,11 @@ pipeline{
             }
             }
         }
+        stage('Java'){
+            tools{
+                jdk 'jdk-11.0.22.7-hotspot'
+            }
+        }
         stage('Build') {
             steps{
                 bat 'mvn clean package'
