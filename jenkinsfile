@@ -9,7 +9,7 @@ pipeline{
                 [
                     $class:'GitSCM',
                     branches:[[name:'*/master']],
-                    userRemoteConfig:[[url:gitUrl]],
+                    userRemoteConfigs:[[url:gitUrl]],
                     extensions:[[$class:'CleanBeforeCheckout'],[$class:'CloneOption',noTags:false,shallow:true]]
                 ]
             )
