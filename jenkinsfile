@@ -1,0 +1,40 @@
+pipline{
+    agent any
+    stages{
+        stage('Checkout'){
+            def gitUrl = 'https://github.com/AddwinFernando/JUNIT-Jacoco-Practoce.git'
+            checkout(
+                [
+                    $class:'GitSCM',
+                    branches:[[name:'*/master']],
+                    userRemoteConfig:[[url:gitUrl]],
+                    extensions:[[$class:'CleanBeforeCheckout'],[$class:'CloneOption',noTags:false,shallow:true]]
+                ]
+            )
+        }
+        stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+    }
+
+    post{
+        success{
+            echo 'Pipline Succeeded'
+        }
+        failure{
+            echo 'Pipline Failed'
+        }
+    }
+}
