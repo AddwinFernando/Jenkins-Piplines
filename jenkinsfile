@@ -2,7 +2,8 @@ pipeline{
     agent any
     stages{
         stage('Checkout'){
-            def gitUrl = 'https://github.com/AddwinFernando/JUNIT-Jacoco-Practoce.git'
+            script{
+                def gitUrl = 'https://github.com/AddwinFernando/JUNIT-Jacoco-Practoce.git'
             checkout(
                 [
                     $class:'GitSCM',
@@ -11,6 +12,7 @@ pipeline{
                     extensions:[[$class:'CleanBeforeCheckout'],[$class:'CloneOption',noTags:false,shallow:true]]
                 ]
             )
+            }
         }
         stage('Build'){
             steps{
