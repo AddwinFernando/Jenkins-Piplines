@@ -1,8 +1,8 @@
 pipeline{
     agent any
-    stages{
-        stage('Checkout'){
-            script{
+    stages {
+        stage('Checkout') {
+            script {
                 def gitUrl = 'https://github.com/AddwinFernando/JUNIT-Jacoco-Practoce.git'
             checkout(
                 [
@@ -14,12 +14,12 @@ pipeline{
             )
             }
         }
-        stage('Build'){
+        stage('Build') {
             steps{
                 sh 'mvn clean package'
             }
         }
-        stage('Test'){
+        stage('Test') {
             steps{
                 sh 'mvn test'
             }
@@ -31,11 +31,11 @@ pipeline{
         }
     }
 
-    post{
-        success{
+    post {
+        success {
             echo 'Pipline Succeeded'
         }
-        failure{
+        failure {
             echo 'Pipline Failed'
         }
     }
