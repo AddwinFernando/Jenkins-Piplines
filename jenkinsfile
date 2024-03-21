@@ -24,7 +24,7 @@ pipeline{
         stage('Build') {
             steps{
                 bat '''
-                mvn versions:set -DnewVersion="{VERSION}"-SNAPSHOT
+                mvn versions:set -DnewVersion= ${VERSION}-SNAPSHOT
                 mvn versions:update-child-modules
                 mvn clean package
                 '''
