@@ -82,7 +82,7 @@ String getBuildVersion() {
 }
 
 void auditTools() {
-    sh '''
+    bat '''
         git version
         java -version
         mvn -version
@@ -90,7 +90,7 @@ void auditTools() {
 }
 
 void packageApplication() {
-    sh '''
+    bat '''
         mvn versions:set -DnewVersion="${VERSION_SUFFIX}"-SNAPSHOT
         mvn versions:update-child-modules
         mvn package
