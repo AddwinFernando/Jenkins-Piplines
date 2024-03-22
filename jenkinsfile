@@ -35,11 +35,11 @@ pipeline{
         }
         stage('Build') {
             environment{
-                VERSION_SUFFIX = '%bat if %RELEASE%==false (echo -n "%INT_VERSION%ci:%BUILD_NUMBER%") else (echo "${RELEASE_VERSION}:${BUILD_NUMBER}"%'
+                VERSION_SUFFIX = bat 'if %RELEASE%==false (echo -n "%INT_VERSION%ci:%BUILD_NUMBER%") else (echo "${RELEASE_VERSION}:${BUILD_NUMBER}")'
             }
             steps{
                 bat '''
-                echo %VERSION_SUFFIX%
+                echo "the version is %VERSION_SUFFIX%"
                 mvn versions:set -DnewVersion="%VERSION_SUFFIX%-SNAPSHOT"
                 mvn versions:update-child-modules
                 mvn clean package
