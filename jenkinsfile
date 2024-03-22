@@ -59,7 +59,7 @@ pipeline{
                 expression {return params.RELEASE}
             }
             steps {
-                archiveArtifacts('**/*.war')
+                archiveArtifacts('**/*.jar')
             }
         }
     }
