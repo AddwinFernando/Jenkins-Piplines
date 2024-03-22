@@ -9,15 +9,15 @@ pipeline{
         INT_VERSION = 'R2'
     }
     stages {
-        // stage('Audit'){
-        //     steps{
-        //         bat '''
-        //         git version
-        //         java -version
-        //         mvn -version
-        //         '''
-        //     }
-        // }
+        stage('Audit'){
+            steps{
+                bat '''
+                git version
+                java -version
+                mvn -version
+                '''
+            }
+        }
         stage('Checkout') {
             steps{
                 script {
