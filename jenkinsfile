@@ -63,11 +63,8 @@ pipeline{
     }
 
     post {
-        success {
-            echo 'Pipline Succeeded'
-        }
-        failure {
-            echo 'Pipline Failed'
+          always {
+            cleanWs()
         }
     }
 }
