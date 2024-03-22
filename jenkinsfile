@@ -29,11 +29,11 @@ pipeline{
                 }
             }
         }
-        // stage('Clean'){
-        //     steps{
-        //         bat 'mvn clean'
-        //     }
-        // }
+        stage('Clean'){
+            steps{
+                bat 'mvn clean'
+            }
+        }
         stage('Versioning') {
             environment{
                 VERSION_SUFFIX = getBuildVersion();
@@ -69,11 +69,8 @@ pipeline{
     }
 
     post {
-        success {
-            echo 'Pipline Succeeded'
-        }
-        failure {
-            echo 'Pipline Failed'
+        always{
+            cleanWs()
         }
     }
 }
