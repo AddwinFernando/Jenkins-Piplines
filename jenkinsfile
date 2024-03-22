@@ -29,11 +29,11 @@ pipeline{
                 }
             }
         }
-        stage('Clean'){
-            steps{
-                bat 'mvn clean'
-            }
-        }
+        // stage('Clean'){
+        //     steps{
+        //         bat 'mvn clean'
+        //     }
+        // }
         stage('Build') {
             environment{
                 VERSION_SUFFIX = getBuildVersion();
