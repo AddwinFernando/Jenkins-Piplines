@@ -38,7 +38,7 @@ pipeline{
                 bat '''
                 mvn versions:set -DnewVersion="%VERSION_SUFFIX%-SNAPSHOT"
                 mvn versions:update-child-modules
-                mvn clean install
+                mvn clean package
                 '''
             }
         }
@@ -63,8 +63,11 @@ pipeline{
     }
 
     post {
-    //     //   always {
-    //     //     cleanWs()
-    //     // }
-    // }
+        success {
+            echo 'Pipline Succeeded'
+        }
+        failure {
+            echo 'Pipline Failed'
+        }
+    }
 }
