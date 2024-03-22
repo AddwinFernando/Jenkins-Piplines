@@ -12,7 +12,6 @@ pipeline{
         stage('Audit'){
             steps{
                 bat '''
-                git version
                 java -version
                 mvn -version
                 '''
@@ -36,7 +35,6 @@ pipeline{
         stage('Build') {
             steps{
                 bat '''
-                mvn clean
                 mvn package
                 '''
             }
