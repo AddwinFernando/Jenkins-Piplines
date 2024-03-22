@@ -1,11 +1,23 @@
 pipeline{
     agent any
+    parametes{
+        booleanParam(name:'RELEASE',defaultValue:false,description:'Is this a Release Candidate')
+    }
     environment {
         JAVA_HOME = 'C:/Program Files/Java/jdk-17'
-        VERSION = '1.0.0'
-        RELEASE = '1.0.0'
+        RELEASE_VERSION='1.1.0'
+        INT_VERSION = 'R2'
     }
     stages {
+        // stage('Audit'){
+        //     steps{
+        //         bat '''
+        //         git version
+        //         java -version
+        //         mvn -version
+        //         '''
+        //     }
+        // }
         stage('Checkout') {
             steps{
                 script {
@@ -22,9 +34,12 @@ pipeline{
             }
         }
         stage('Build') {
+            environment{
+                VERSION_SUFFIX = '${bat if %RELEASE%==false (echo -n "%INT_VERSION%ci:%BUILD_NUMBER%") else (echo "${RELEASE_VERSION}:${BUILD_NUMBER}") }'
+            }
             steps{
                 bat '''
-                mvn versions:set -DnewVersion="%VERSION%-SNAPSHOT"
+                mvn versions:set -DnewVersion="%VERSION_SUFFIX%-SNAPSHOT"
                 mvn versions:update-child-modules
                 mvn clean package
                 '''
