@@ -7,7 +7,6 @@ pipeline{
         JAVA_HOME = 'C:/Program Files/Java/jdk-17'
         RELEASE_VERSION='1.1.0'
         INT_VERSION = 'R2'
-        VERSION_SUFFIX = bat 'if %RELEASE%==false (echo -n "%INT_VERSION%ci:%BUILD_NUMBER%") else (echo "%RELEASE_VERSION%:%BUILD_NUMBER%")'
     }
     stages {
         // stage('Audit'){
@@ -35,11 +34,11 @@ pipeline{
             }
         }
         stage('Build') {
-            // environment{
-            //     VERSION_SUFFIX = bat 'if %RELEASE%==false (echo -n "%INT_VERSION%ci:%BUILD_NUMBER%") else (echo "%RELEASE_VERSION%:%BUILD_NUMBER%")'
-            // }
+            environment{
+                VERSION_SUFFIX = bat 'if %RELEASE%==false (echo -n "%INT_VERSION%ci:%BUILD_NUMBER%") else (echo "%RELEASE_VERSION%:%BUILD_NUMBER%")'
+            }
             steps{
-                echo "the version is %VERSION_SUFFIX%"
+                echo "the version is $VERSION_SUFFIX"
                 bat '''
                 mvn versions:set -DnewVersion="%VERSION_SUFFIX%-SNAPSHOT"
                 mvn versions:update-child-modules
