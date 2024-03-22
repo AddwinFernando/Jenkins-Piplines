@@ -9,6 +9,14 @@ pipeline{
         INT_VERSION = 'R2'
     }
     stages {
+        stage("Multiine Test"){
+            steps{
+                bat '''
+                    echo "HI"
+                    echo "Hello"
+                '''
+            }
+        }
         stage('Audit'){
             steps{
                 auditTools()
