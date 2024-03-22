@@ -9,14 +9,6 @@ pipeline{
         INT_VERSION = 'R2'
     }
     stages {
-        stage("Multiine Test"){
-            steps{
-                bat '''
-                    echo "HI"
-                    echo "Hello"
-                '''
-            }
-        }
         stage('Audit'){
             steps{
                 auditTools()
@@ -91,7 +83,6 @@ String getBuildVersion() {
 
 void auditTools() {
     bat '''
-        git version
         java -version
         mvn -version
     '''
