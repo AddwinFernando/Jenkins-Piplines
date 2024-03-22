@@ -11,16 +11,13 @@ pipeline{
     stages {
         stage('Audit'){
             steps{
-                bat '''
-                java -version
-                mvn -version
-                '''
+                auditTools()
             }
         }
         stage('Checkout') {
             steps{
                 script {
-                def gitUrl = 'https://github.com/AddwinFernando/JUNIT-Jacoco-Practoce.git'
+                    def gitUrl = 'https://github.com/AddwinFernando/JUNIT-Jacoco-Practoce.git'
             checkout(
                 [
                     $class:'GitSCM',
@@ -29,19 +26,21 @@ pipeline{
                     extensions:[[$class:'CleanBeforeCheckout'],[$class:'CloneOption',noTags:false,shallow:true]]
                 ]
             )
-            }
+                }
             }
         }
-        stage("Clean"){
+        stage('Clean'){
             steps{
                 bat 'mvn clean'
             }
         }
         stage('Build') {
+            environment{
+                VERSION_SUFFIX = getBuildVersion();
+            }
             steps{
-                bat '''
-                mvn package
-                '''
+                echo "Building version: ${INT_VERSION} with suffix: ${VERSION_SUFFIX}"
+                packageApplication()
             }
         }
         stage('Test') {
@@ -72,4 +71,28 @@ pipeline{
             echo 'Pipline Failed'
         }
     }
+}
+
+String getBuildVersion() {
+    if (params.RELEASE) {
+        return env.RELEASE_VERSION + ':' + env.BUILD_NUMBER
+    } else {
+        return env.INT_VERSION + '+ci:' + env.BUILD_NUMBER
+    }
+}
+
+void auditTools() {
+    sh '''
+        git version
+        java -version
+        mvn -version
+    '''
+}
+
+void packageApplication() {
+    sh '''
+        mvn versions:set -DnewVersion="${VERSION_SUFFIX}"-SNAPSHOT
+        mvn versions:update-child-modules
+        mvn package
+    '''
 }
